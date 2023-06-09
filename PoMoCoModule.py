@@ -32,7 +32,7 @@ class Node(threading.Thread):
         A function for  pushing the input note message in the modules dictionary.
         :param note: an object that is defines using Note class. Should contain a message to be pushed to the controller
         """
-        Node.modules[note.receiver].put(note)
+        Node.modules[note.receiver] = note
 
     def write_send_note(self, type, message, receiver):
         """
@@ -49,15 +49,25 @@ class Node(threading.Thread):
         self.send_note(note_to_send)
 
     def process_note(self, note):
-        pass
-
-    def add_note(self, note):
         """
-        A function for putting a note in the queue for further processing
+        A function that will be overloaded for processing the input note
         :param note: an object that is defines using Note class. Should contain a message to be pushed to the controller
         """
-        print("[INFO] Current queue of the messages to be processed: \n", self.inNoteQueue)
-        print("\n[INFO] Adding new note: ", note)
+        pass
+
+    def add_note(self, type, message, receiver):
+        """
+        A function for putting a note in the queue for further processing
+        :param type:
+        :param message:
+        :param receiver:
+        """
+        note = Note()
+        note.type = type
+        note.message = message
+        note.receiver = receiver
+        print("[INFO] Current queue of the messages to be processed: \n", self.inNoteQueue.qsize())
+        print("\n[INFO] Adding new note: ", note.message)
         self.inNoteQueue.put(note)
 
     def run_node(self):
