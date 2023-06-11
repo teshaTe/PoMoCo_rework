@@ -34,16 +34,16 @@ class Node(threading.Thread):
         """
         Node.modules[note.receiver] = note
 
-    def write_send_note(self, type, message, receiver):
+    def write_send_note(self, mtype, message, receiver):
         """
         A function for preparing the input Note structure & storing it in the modules dictionary until it will be sent
         to the controller.
-        :param type: a string that contains the type of the message to be sent;
+        :param mtype: a string that contains the type of the message to be sent;
         :param message: a string that contains the message to be sent to the controller;
         :param receiver: a string that contains the name of the object that will receive the message;
         """
         note_to_send = Note()
-        note_to_send.type = type
+        note_to_send.type = mtype
         note_to_send.message = message
         note_to_send.receiver = receiver
         self.send_note(note_to_send)
