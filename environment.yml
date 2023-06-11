@@ -12,3 +12,4 @@ dependencies:
     - pyserial
     - wxPython
     - configparser
+    - pytest
