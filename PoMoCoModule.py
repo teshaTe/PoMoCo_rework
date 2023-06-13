@@ -48,12 +48,12 @@ class Node(threading.Thread):
         note_to_send.receiver = receiver
         self.send_note(note_to_send)
 
-    def process_note(self, note):
-        """
-        A function that will be overloaded for processing the input note
-        :param note: an object that is defines using Note class. Should contain a message to be pushed to the controller
-        """
-        pass
+    # def process_note(self, note):
+    #     """
+    #     A function that will be overloaded for processing the input note
+    #     :param note: an object that is defines using Note class. Should contain a message to be pushed to the controller
+    #     """
+    #     pass
 
     def add_note(self, type, message, receiver):
         """
@@ -70,17 +70,17 @@ class Node(threading.Thread):
         print("\n[INFO] Adding new note: ", note.message)
         self.inNoteQueue.put(note)
 
-    def run_node(self):
-        """
-        A function for executing the node.
-        """
-
-        while True:
-            try:
-                message = self.inNoteQueue.get(block=False)
-                self.process_note(message)
-            except queue.Empty:
-                print("[WARNING] The queue with messages to be processed is empty!")
-                pass
-            time.sleep(0)  # keeps infinite loop from hogging all the CPU
+    # def run_node(self):
+    #     """
+    #     A function for executing the node.
+    #     """
+    #
+    #     while True:
+    #         try:
+    #             message = self.inNoteQueue.get(block=False)
+    #             self.process_note(message)
+    #         except queue.Empty:
+    #             print("[WARNING] The queue with messages to be processed is empty!")
+    #             pass
+    #         time.sleep(0)  # keeps infinite loop from hogging all the CPU
 
