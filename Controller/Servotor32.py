@@ -4,7 +4,6 @@ import os
 root_dir = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.append(root_dir)
 
-import multiprocessing
 import threading
 import queue
 import time
@@ -13,6 +12,9 @@ import PoMoCoModule
 
 
 class Servotor32(PoMoCoModule.Node):
+    """
+    A class for controlling the servotor microcontroller with 32 three-pins inputs
+    """
     def __init__(self):
         super().__init__()
         threading.Thread.__init__(self)
@@ -63,9 +65,8 @@ class Servotor32(PoMoCoModule.Node):
 
     def process_note(self, note):
         """
-
-        :param note:
-        :return:
+        This function is processing the input note node with input instruction.
+        :param note: a node object with input message-instruction
         """
         if note.type == 'StartRecording':
             self.recording = True
@@ -172,7 +173,10 @@ class Servotor32(PoMoCoModule.Node):
             raise ValueError("Unknown message type!")
 
     def send_servo_state(self, state):
-
+        """
+        This function defines the state of the servo engine
+        :param state: an integer value with state
+        """
         # send raw command to comms
         out_pos = self.servo_pos[state]
         out_pos += self.servo_offset[state]  # add offset
@@ -200,6 +204,16 @@ class Servotor32(PoMoCoModule.Node):
 
     @staticmethod
     def arduino_move_control_code(move_steps, name, move_name_time_str, move_name_servo_str, move_name_pos_str):
+        """
+        This function defines the C code with instructions that will be sent to the controller
+        :param move_steps: a float value that defines the rotation step for the servo engine
+        :param name: a string parameter that defines the name of the recording value
+        :param move_name_time_str: a string with activation time
+        :param move_name_servo_str: a string with the name of the servo
+        :param move_name_pos_str: a string with the position of the servo
+        :return: the string with C-code
+        """
+
         arduino_code = ""
         arduino_code += "#include <str/pgmspace.h\n"
         arduino_code += "#define MOVE_"+name.upper()+"_SIZE "+str(move_steps)+"\n\n"
